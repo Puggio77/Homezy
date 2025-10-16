@@ -12,7 +12,7 @@ struct CalendarView: View {
         NavigationStack{
             VStack(alignment: .leading){
                 
-            // MARK: - Calendar Section
+            //
             Text("Calendar")
                 .font(.largeTitle)
                 .bold()
@@ -20,7 +20,7 @@ struct CalendarView: View {
                 .padding(.horizontal)
                 
                 
-                // MARK: - To do's Section
+                //
                 List{
                     Section{
                         Label("Fold clothes", systemImage: "tshirt.fill")
@@ -58,14 +58,13 @@ struct CalendarView: View {
          NavigationStack {
              VStack(alignment: .leading) {
                  
-                 // Titolo in alto
                  Text("Calendar")
                      .font(.largeTitle)
                      .bold()
                      .padding(.top)
                      .padding(.horizontal)
                  
-                 // Parte sopra del calendario con mese e frecce
+                 // MARK: upper calendar part
                  HStack {
                      Button(action: {
                          changeMonth(by: -1)
@@ -90,7 +89,6 @@ struct CalendarView: View {
                  .padding(.horizontal)
                  .padding(.bottom, 5)
                  
-                 // Giorni della settimana
                  HStack {
                      ForEach(["SUN","MON","TUE","WED","THU","FRI","SAT"], id: \.self) { day in
                          Text(day)
@@ -101,7 +99,7 @@ struct CalendarView: View {
                  }
                  .padding(.horizontal, 8)
                  
-                 // Mostra i giorni del mese
+                 // show days
                  CalendarGrid(
                      currentDate: currentDate,
                      selectedDate: $selectedDate,
@@ -110,7 +108,7 @@ struct CalendarView: View {
                  .padding(.horizontal)
                  .padding(.bottom, 20)
                  
-                 // Parte "To do's"
+                 //MARK: - To do's Section
                  List{
                      Section{
                          Label("Fold clothes", systemImage: "tshirt.fill")
@@ -126,15 +124,26 @@ struct CalendarView: View {
                  }//END LIST
                  
              }
-             // Overlay che si apre quando tocchi una data
+
              .sheet(isPresented: $showOverlay) {
                  if let date = selectedDate {
                      VStack(spacing: 20) {
                          Text(date, style: .date)
                              .font(.title)
                              .bold()
-                         Text("Overlay per la data selezionata")
-                             .foregroundColor(.gray)
+                         List{
+                             Section{
+                                 Label("Fold clothes", systemImage: "tshirt.fill")
+                                 Label("Wash dishes", systemImage: "dishwasher.fill")
+                                 Label("Clean bathroom", systemImage: "shower.fill")
+                                 Label("clean the office", systemImage: "lamp.desk.fill")
+                             } header: {
+                                 Text("Challenge completed on this day")
+                                     .font(.title)
+                                     .bold()
+                                     .foregroundColor(.black)
+                             }//END HEADER
+                         }//END LIST
                          Button("Chiudi") {
                              showOverlay = false
                          }
@@ -169,7 +178,7 @@ struct CalendarView: View {
      
      let calendar = Calendar.current
      
-     // Giorni completati (solo esempio)
+     // day's dot
      let completedDays = [
          4, 8, 15, 21
      ]

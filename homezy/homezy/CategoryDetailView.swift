@@ -10,11 +10,14 @@ import SwiftUI
 struct CategoryDetailView: View {
     
     let category: Category
-    @State var isModalOpen: Bool = false
-
+    @State private var selectedTip: Tip? = nil
+    @State private var showTipDetail: Bool = false
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
+                
+                //MARK: - CATEGORY RECTANGLE
                 RoundedRectangle(cornerRadius: 20)
                     .fill(category.color.gradient)
                     .frame(height: 160)
@@ -38,26 +41,37 @@ struct CategoryDetailView: View {
                 
                 Divider().padding(.horizontal)
                 
+                //MARK: - SUGGESTED TIPS PART
                 Text("Suggested Tips")
                     .font(.title2.bold())
                     .padding(.horizontal)
                 
                 VStack(spacing: 12) {
-                    ForEach(sampleTasks(for: category), id: \.self) { task in
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color(.systemGray6))
-                            .frame(height: 70)
-                            .overlay(
-                                HStack {
-                                    Image(systemName: "checkmark.circle")
-                                        .foregroundColor(.blue)
-                                    Text(task)
-                                        .font(.headline)
-                                    Spacer()
-                                }
+                    ForEach(category.tips) { tip in
+                        Button {
+                            // ✅ Quando premi un tip, apri overlay
+                            selectedTip = tip
+                            showTipDetail = true
+                        } label: {
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color(.systemGray6))
+                                .frame(height: 70)
+                                .overlay(
+                                    HStack {
+                                        Image(systemName: "checkmark.circle")
+                                            .foregroundColor(.blue)
+                                        Text(tip.title)
+                                            .font(.headline)
+                                            .foregroundColor(.primary)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .foregroundColor(.gray)
+                                    }
+                                    .padding(.horizontal)
+                                )
                                 .padding(.horizontal)
-                            )
-                            .padding(.horizontal)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
                 
@@ -66,23 +80,17 @@ struct CategoryDetailView: View {
         }
         .navigationTitle(category.name)
         .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-func sampleTasks(for category: Category) -> [String] {
-    switch category.name {
-    case "Kitchen": return ["Clean the stove", "Wash the dishes", "Wipe the counters"]
-    case "Bathroom": return ["Clean the sink", "Disinfect the toilet", "Polish the mirror"]
-    case "Bedroom": return ["Make the bed", "Dust furniture", "Vacuum the floor"]
-    case "Living Room": return ["Organize shelves", "Clean the coffee table", "Vacuum the carpet"]
-    case "Laundry": return ["Sort clothes", "Start washing cycle", "Fold laundry"]
-    case "Office": return ["Organize the desk", "Clean the monitor", "Empty the trash bin"]
-    case "Repair": return ["replace lights", "repair the sink", "fanculo non so che scrivere"]
-    case "Schedule": return ["Plan the week", "Set reminders", "jkb wrvljhwdvòjh"]
-    default: return ["General cleaning", "Tidy up items"]
+        
+        //Overlay x suggested tips
+        .sheet(item: $selectedTip) { tip in
+            TipDetailView(tip: tip, color: category.color)
+                .presentationDetents([.medium, .large])
+        }
     }
 }
 
 #Preview {
-    CategoryDetailView(category: Category(name: "Kitchen", icon: "fork.knife", color: .orange, description: "Tips and tasks to keep your kitchen clean and organized."))
+    NavigationView {
+        CategoryDetailView(category: categories[0])
+    }
 }
