@@ -9,25 +9,23 @@ import SwiftUI
 
 struct ContainerView: View {
     
-
-    
     var body: some View {
-        TabView {
-            Tab("Home", systemImage: "house.fill"){
-                HomePageView()
-            }
-            Tab("Game", systemImage: "gamecontroller.fill"){
-                GameView()
-            }
-            Tab("Achivements", systemImage: "flag.pattern.checkered"){
-                AchivementsView()
-            }
-            Tab("Calendar", systemImage: "calendar"){
-                CalendarView()
-            }
-            Tab("Search", systemImage: "magnifyingglass"){
-                SearchView()
-            }
+            TabView {
+                Tab("Home", systemImage: "house.fill"){
+                    HomePageView()
+                }
+                Tab("Game", systemImage: "gamecontroller.fill"){
+                    GameView()
+                }
+                Tab("Achivements", systemImage: "flag.pattern.checkered"){
+                    AchivementsView()
+                }
+                Tab("Calendar", systemImage: "calendar"){
+                    CalendarView()
+                }
+                Tab("Search", systemImage: "magnifyingglass"){
+                    SearchView()
+                }
         }
     }
 }

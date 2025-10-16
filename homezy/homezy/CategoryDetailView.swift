@@ -78,6 +78,7 @@ func sampleTasks(for category: Category) -> [String] {
     case "Laundry": return ["Sort clothes", "Start washing cycle", "Fold laundry"]
     case "Office": return ["Organize the desk", "Clean the monitor", "Empty the trash bin"]
     case "Repair": return ["replace lights", "repair the sink", "fanculo non so che scrivere"]
+    case "Schedule": return ["Plan the week", "Set reminders", "jkb wrvljhwdvòjh"]
     default: return ["General cleaning", "Tidy up items"]
     }
 }
