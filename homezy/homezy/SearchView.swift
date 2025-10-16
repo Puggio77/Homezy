@@ -15,9 +15,13 @@ struct SearchView: View {
         if searchText.isEmpty {
             return categories
         } else {
-            return categories.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+            return categories.filter { category in
+                category.name.lowercased().contains(searchText.lowercased()) ||
+                category.tips.contains { $0.title.lowercased().contains(searchText.lowercased()) }
+            }
         }
     }
+
     
     var body: some View {
         NavigationStack {
