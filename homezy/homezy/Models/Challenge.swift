@@ -1,17 +1,16 @@
 //
-//  ToDo.swift
+//  Challenge.swift
 //  homezy
 //
 //  Created by Riccardo Puggioni on 18/10/25.
 //
-
+//sevre veramente bho?
 import Foundation
 import SwiftUI
 
-struct ToDo: Identifiable, Hashable {
+struct Challenge: Identifiable, Hashable {
     let id = UUID()
     let title: String
     let icon: String
-    let detail: String
+    let details: String
 }
-

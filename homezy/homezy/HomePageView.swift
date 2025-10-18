@@ -15,17 +15,18 @@ struct HomePageView: View {
                 List{
                     Section{
                         ForEach(todo, id: \.id) { item in
-                            HStack {
-                                Image(systemName: item.icon)
-                                    .foregroundColor(.blue)
-                                Text(item.title)
-                            }
-                        }
+                            NavigationLink(destination: ChallengeView(todoItem: item)) {
+                                HStack {
+                                    Image(systemName: item.icon)
+                                        .foregroundColor(.blue)
+                                    Text(item.title)
+                                }//end hstack
+                            }//end navigationlink
+                        }//end for each
                     } header: {
                         Text("To do's")
                             .font(.title)
                             .bold()
-                            .foregroundColor(.black)
                     }//END HEADER
                 }//END LIST
             }

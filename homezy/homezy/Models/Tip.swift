@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Tip: Identifiable, Hashable {
     let id = UUID()

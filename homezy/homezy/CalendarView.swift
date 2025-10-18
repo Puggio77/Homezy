@@ -46,18 +46,18 @@
 import SwiftUI
 
 struct CalendarView: View {
-    // La data attuale (mese mostrato)
+    // actual date
     @State private var currentDate = Date()
-    // La data selezionata quando tocchi un giorno
+    //Selected date
     @State private var selectedDate: Date? = nil
-    // Mostra o nasconde il foglio (overlay)
+    
     @State private var showOverlay = false
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
                 
-                // MARK: upper calendar part
+                // MARK: - Calenario sopra
                 HStack {
                     Button(action: {
                         changeMonth(by: -1)
@@ -105,17 +105,18 @@ struct CalendarView: View {
                 List{
                     Section{
                         ForEach(todo, id: \.id) { item in
-                            HStack {
-                                Image(systemName: item.icon)
-                                    .foregroundColor(.blue)
-                                Text(item.title)
-                            }
-                        }
+                            NavigationLink(destination: ChallengeView(todoItem: item)) {
+                                HStack {
+                                    Image(systemName: item.icon)
+                                        .foregroundColor(.blue)
+                                    Text(item.title)
+                                }//end hstack
+                            }//end navigationlink
+                        }//end for each
                     } header: {
                         Text("To do's")
                             .font(.title)
                             .bold()
-                            .foregroundColor(.black)
                     }//END HEADER
                 }//END LIST
                 
@@ -129,15 +130,10 @@ struct CalendarView: View {
                             .bold()
                         List{
                             Section{
-                                Label("Fold clothes", systemImage: "tshirt.fill")
-                                Label("Wash dishes", systemImage: "dishwasher.fill")
-                                Label("Clean bathroom", systemImage: "shower.fill")
-                                Label("clean the office", systemImage: "lamp.desk.fill")
                             } header: {
                                 Text("Challenge completed on this day")
                                     .font(.title)
                                     .bold()
-                                    .foregroundColor(.black)
                             }//END HEADER
                         }//END LIST
                         Button("Chiudi") {
@@ -155,7 +151,6 @@ struct CalendarView: View {
     // MARK: - Funzioni utili
     
     func changeMonth(by value: Int) {
-        // Cambia mese avanti o indietro
         if let newDate = Calendar.current.date(byAdding: .month, value: value, to: currentDate) {
             currentDate = newDate
         }
@@ -175,24 +170,19 @@ struct CalendarGrid: View {
     
     let calendar = Calendar.current
     
-    // day's dot
     let completedDays = [
         4, 8, 15, 21
     ]
     
     var body: some View {
-        // Quanti giorni ha il mese
         let daysInMonth = calendar.range(of: .day, in: .month, for: currentDate)!
-        // Primo giorno del mese (serve per allineare la griglia)
         let firstDayOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: currentDate))!
         let firstWeekday = calendar.component(.weekday, from: firstDayOfMonth)
-        // Totale celle nella griglia
         let totalCells = daysInMonth.count + (firstWeekday - 1)
         
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
             ForEach(0..<totalCells, id: \.self) { index in
                 if index < firstWeekday - 1 {
-                    // Spazi vuoti prima dell'inizio del mese
                     Color.clear.frame(height: 40)
                 } else {
                     let day = index - (firstWeekday - 2)
@@ -222,6 +212,7 @@ struct CalendarGrid: View {
         }
     }
 }
+
 
 #Preview {
     CalendarView()
